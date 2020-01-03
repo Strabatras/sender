@@ -7,8 +7,17 @@ $autoloader->SplAutoloadRegister();
 $autoloader->nameSpaceRegister( 'Bacchus\Sender', __DIR__ . DIRECTORY_SEPARATOR . 'Bacchus' . DIRECTORY_SEPARATOR . 'Sender' . DIRECTORY_SEPARATOR . 'src' );
 
 $sender = new \Bacchus\Sender\Sender();
+$sender->setSetingsTranspot( $sender->getTransport()->getSettings()
+                                    ->setProtocol('http')
+                                    ->setDomain( 'response.localhost' )
+                                    ->setPort( 80 )
+                                    ->setMethod( 'get' )
+);
 
+$sender->execute();
 
 echo "<pre>";
-print_r( $sender );
+//print_r( $sender );
 echo "</pre>";
+
+//phpinfo();
