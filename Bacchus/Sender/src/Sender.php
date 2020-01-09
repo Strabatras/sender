@@ -2,18 +2,19 @@
 namespace Bacchus\Sender;
 
 use Bacchus\Sender\Interfaces\TransportInterface;
-use Bacchus\Sender\Interfaces\SetingsTranspotInterface;
+use Bacchus\Sender\Interfaces\UriRequestInterface;
 use Bacchus\Sender\Transports\Curl;
-use Bacchus\Sender\Transports\SettingsTransport;
+use Bacchus\Sender\Requests\UriRequest;
 
 class Sender {
 
     private $transport = null;
-    private $setingsTranspot = null;
+    private $uriRequest = null;
 
     protected function transport() :TransportInterface {
         if ( $this->transport === null ) {
             $this->transport = new Curl();
+            $this->transport->setUriRequest( new UriRequest() );
         }
         return $this->transport;
     }
@@ -38,19 +39,19 @@ class Sender {
 
     /**
      * Возвращает настройки транспорта
-     * @return SetingsTranspotInterface
+     * @return UriRequestInterface
      */
-    public function getSetingsTranspot() :SetingsTranspotInterface {
-        return $this->transport()->getSettings();
+    public function getUriRequest() :UriRequestInterface {
+        return $this->transport()->getUriRequest();
     }
 
     /**
      * Устанавливает настройки транспорта
-     * @param SetingsTranspotInterface $setingsTranspot
+     * @param UriRequestInterface $setingsTranspot
      * @return $this
      */
-    public function setSetingsTranspot( SetingsTranspotInterface $setingsTranspot ) {
-        $this->setingsTranspot = $setingsTranspot;
+    public function setUriRequest( UriRequestInterface $uriRequest ) {
+        $this->uriRequest = $uriRequest;
         return $this;
     }
 

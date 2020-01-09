@@ -2,36 +2,63 @@
 
 namespace Bacchus\Sender\Transports;
 
-use Bacchus\Sender\Interfaces\SetingsTranspotInterface;
+use Bacchus\Sender\Interfaces\ResponseInterface;
+use Bacchus\Sender\Interfaces\UriRequestInterface;
 use Bacchus\Sender\Interfaces\TransportInterface;
+use Bacchus\Sender\Responses\Response;
 
 
 class Curl implements TransportInterface {
 
-    private $settings = null;
+    private $uriRequest = null;
+    private $curlExec = null;
+    private $curlGetInfo = null;
 
-    private function setting(){
-        if ( $this->settings === null ) {
-            $this->settings = new SettingsTransport();
-        }
-        return $this->settings;
+    private $response = null;
+
+    private function eraseResponse(){
+        $this->curlExec = null;
+        $this->curlGetInfo = null;
+        $this->response = null;
     }
 
-    public function getSettings(): SetingsTranspotInterface {
-        return $this->setting();
+    private function curlExec(){
+        return $this->curlExec;
     }
 
-    public function setSettings( SetingsTranspotInterface $settings ) {
-        $this->settings = $settings;
+    private function curlGetInfo(){
+        return $this->curlGetInfo;
+    }
+
+    private function uriRequest(){
+        return $this->uriRequest;
+    }
+
+    /**
+     * Возвращает URI запроса
+     * @return UriRequestInterface
+     */
+    public function getUriRequest(): UriRequestInterface {
+        return $this->uriRequest();
+    }
+
+    /**
+     * Устанавливает URI запроса
+     * @param UriRequestInterface $uriRequest
+     * @return $this
+     */
+    public function setUriRequest( UriRequestInterface $uriRequest ) {
+        $this->uriRequest = $uriRequest;
         return $this;
     }
 
     public function execute(){
         echo '<h5>' . __METHOD__ . '</h5>';
 
+        $this->eraseResponse();
+        $uri = $this->uriRequest();
 
-        $setting = $this->setting();
-        $options = [ CURLOPT_URL    => ( ( $setting->getProtocol() ) ? ( $setting->getProtocol() . '://' ) : ( '' ) ) . $setting->getDomain() . $setting->getPath()
+        $options = [ CURLOPT_URL    => ( ( $uri->getProtocol() ) ? ( $uri->getProtocol() . '://' ) : ( '' ) ) . $uri->getDomain() . $uri->getPath()
                    , CURLOPT_HEADER => 1
                    , CURLOPT_RETURNTRANSFER => 1
                    , CURLOPT_FOLLOWLOCATION => 0
@@ -39,8 +66,8 @@ class Curl implements TransportInterface {
                    , CURLOPT_TIMEOUT => 5
                    ];
 
-        if ( $setting->getPort() ) {
-            $options[ CURLOPT_PORT ] = $setting->getPort();
+        if ( $uri->getPort() ) {
+            $options[ CURLOPT_PORT ] = $uri->getPort();
         }
 
         $options[ CURLOPT_URL ] = 'http://swapi.co/api/people/1/?format=json';
@@ -52,13 +79,13 @@ class Curl implements TransportInterface {
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false );
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false );
 
-        $result = curl_exec( $ch );
+        $this->curlExec = curl_exec( $ch );
 
         if (!curl_errno($ch)) {
             //$http_code = curl_getinfo( $ch, CURLINFO_HTTP_CODE );
-            $curlGetinfo = curl_getinfo( $ch );
+            $this->curlGetInfo = curl_getinfo( $ch );
             echo "<pre>";
-                print_r( $curlGetinfo );
+                print_r( $this->curlGetInfo() );
             echo "</pre>";
         }
 
@@ -73,5 +100,13 @@ class Curl implements TransportInterface {
             print_r( '<br> result => ' );
             print_r( $result );
         echo "</pre>";
+    }
+
+    public function response() : ResponseInterface {
+        if ( $this->response === null ) {
+            $response = new Response();
+            $this->response = $response;
+        }
+        return $this->response();
     }
 }

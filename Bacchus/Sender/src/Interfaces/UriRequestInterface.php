@@ -4,7 +4,7 @@
 namespace Bacchus\Sender\Interfaces;
 
 
-interface SetingsTranspotInterface {
+interface UriRequestInterface {
     public function getProtocol() : string;
     public function setProtocol( string $protocol );
     public function getDomain() : string;

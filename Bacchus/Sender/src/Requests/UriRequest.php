@@ -1,13 +1,13 @@
 <?php
-namespace Bacchus\Sender\Transports;
+namespace Bacchus\Sender\Requests;
 
-use Bacchus\Sender\Interfaces\SetingsTranspotInterface;
+use Bacchus\Sender\Interfaces\UriRequestInterface;
 
 /**
- * Class SettingsTransport
+ * Class UriRequest
  * @package Bacchus\Sender\Transports
  */
-class SettingsTransport implements SetingsTranspotInterface {
+class UriRequest implements UriRequestInterface {
 
     private $protocol = '';
     private $domain = '';
@@ -26,9 +26,9 @@ class SettingsTransport implements SetingsTranspotInterface {
     /**
      * Устанавливает протокол соединения
      * @param string $protocol
-     * @return SetingsTranspotInterface
+     * @return UriRequestInterface
      */
-    public function setProtocol( string $protocol ) :SetingsTranspotInterface{
+    public function setProtocol( string $protocol ) :UriRequestInterface{
         $this->protocol = $protocol;
         return $this;
     }
@@ -44,9 +44,9 @@ class SettingsTransport implements SetingsTranspotInterface {
     /**
      * Устанавливает домен соединения
      * @param string $domain
-     * @return SetingsTranspotInterface
+     * @return UriRequestInterface
      */
-    public function setDomain( string $domain ) :SetingsTranspotInterface {
+    public function setDomain( string $domain ) :UriRequestInterface {
         $this->domain = $domain;
         return $this;
     }
@@ -62,9 +62,9 @@ class SettingsTransport implements SetingsTranspotInterface {
     /**
      * Устанавливает путь домена соединения
      * @param string $path
-     * @return SetingsTranspotInterface
+     * @return UriRequestInterface
      */
-    public function setPath( string $path ) : SetingsTranspotInterface {
+    public function setPath( string $path ) : UriRequestInterface {
         $this->path = $path;
         return $this;
     }
@@ -82,7 +82,7 @@ class SettingsTransport implements SetingsTranspotInterface {
      * @param int $port
      * @return $this
      */
-    public function setPort( int $port ) : SetingsTranspotInterface {
+    public function setPort( int $port ) : UriRequestInterface {
         $this->port = $port;
         return $this;
     }
@@ -100,7 +100,7 @@ class SettingsTransport implements SetingsTranspotInterface {
      * @param string $method
      * @return $this
      */
-    public function setMethod( string $method ) : SetingsTranspotInterface {
+    public function setMethod( string $method ) : UriRequestInterface {
         $this->method = $method;
         return $this;
     }

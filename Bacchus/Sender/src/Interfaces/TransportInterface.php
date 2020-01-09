@@ -6,7 +6,8 @@ namespace Bacchus\Sender\Interfaces;
  * @package Bacchus\Sender\Interfaces
  */
 interface TransportInterface {
-    public function getSettings() : SetingsTranspotInterface;
-    public function setSettings( SetingsTranspotInterface $settings );
+    public function getUriRequest() : UriRequestInterface;
+    public function setUriRequest( UriRequestInterface $uriRequest );
+    public function response();
     public function execute();
 }
