@@ -5,9 +5,8 @@ namespace Bacchus\Sender\Transports;
 use Bacchus\Sender\Interfaces\ResponseInterface;
 use Bacchus\Sender\Interfaces\UriRequestInterface;
 use Bacchus\Sender\Interfaces\TransportInterface;
-use Bacchus\Sender\Response\HeadersResponse;
 use Bacchus\Sender\Response\Response;
-
+use Bacchus\Sender\Response\HeadersResponse;
 
 class Curl implements TransportInterface {
 
@@ -41,6 +40,10 @@ class Curl implements TransportInterface {
             $headersResponse->setContentType( ( isset( $curlGetInfo[ 'content_type'] ) ) ? ( $curlGetInfo[ 'content_type'] ) : ( '' ) );
         }
         return $headersResponse;
+    }
+
+    private function bodyResponse( $bodyResponse ){
+        return $bodyResponse;
     }
 
     /**
@@ -93,21 +96,14 @@ class Curl implements TransportInterface {
         if ( !curl_errno( $ch ) ) {
             $this->curlGetInfo = curl_getinfo( $ch );
         }
-
         curl_close( $ch );
-
     }
 
     public function response() : ResponseInterface {
         if ( $this->response === null ) {
-            $response = new Response();
-            $response->setHeadersResponse( $this->headersResponse( $response->getHeadersResponse() ) );
-
-            if ( $this->curlExec() ) {
-
-            }
-
-            $this->response = $response;
+            $this->response = new Response();
+            $this->response->setHeadersResponse( $this->headersResponse( $this->response->getHeadersResponse() ) );
+            $this->response->setBodyResponse( $this->bodyResponse( $this->curlExec() ) );
         }
         return $this->response;
     }

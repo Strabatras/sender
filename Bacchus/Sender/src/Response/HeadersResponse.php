@@ -1,13 +1,10 @@
 <?php
-
-
 namespace Bacchus\Sender\Response;
 
 
 class HeadersResponse {
     private $httpCode = null;
     private $contentType = null;
-
     /**
      * Возвращает http код ответа
      * @return int|null
@@ -15,7 +12,6 @@ class HeadersResponse {
     public function getHttpCode() :? int {
         return $this->httpCode;
     }
-
     /**
      * Устанавливает http код ответа
      * @param int $httpCode
@@ -26,7 +22,6 @@ class HeadersResponse {
         $this->httpCode = $httpCode;
         return $this;
     }
-
     /**
      * Возвращает тип контента
      * @return string|null
@@ -34,7 +29,6 @@ class HeadersResponse {
     public function getContentType() :? string {
         return $this->contentType;
     }
-
     /**
      * Устанавливает тип контента
      * @param string $contentType
@@ -44,5 +38,4 @@ class HeadersResponse {
         $this->contentType = $contentType;
         return $this;
     }
-
 }

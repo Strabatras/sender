@@ -1,16 +1,12 @@
 <?php
-
 namespace Bacchus\Sender\Response;
+
 
 use Bacchus\Sender\Interfaces\ResponseInterface;
 
-
 class Response implements ResponseInterface {
-
     private $headersResponse = null;
-    private $traceResponse = null;
-    private $resultsResponse = null;
-    private $errorsResponse = null;
+    private $bodyResponse = null;
 
     /**
      * Возвращает заголовки ответа
@@ -22,7 +18,6 @@ class Response implements ResponseInterface {
         }
         return $this->headersResponse;
     }
-
     /**
      * Устанавливает заголовки ответа
      * @param HeadersResponse $headersResponse
@@ -34,65 +29,20 @@ class Response implements ResponseInterface {
     }
 
     /**
-     * Возвращает данные трассировки ответа
-     * @return TraceResponse
+     * Возвращает тело ответа
+     * @return mixed|null
      */
-    public function getTraceResponse(): TraceResponse {
-        if ( $this->traceResponse === null ) {
-            $this->traceResponse = new TraceResponse();
-        }
-        return $this->traceResponse;
+    public function getBodyResponse() {
+        return $this->bodyResponse;
     }
 
     /**
-     * Устанавливает данные трассировки ответа
-     * @param TraceResponse $traceResponse
+     * Устанавливает тело ответа
+     * @param $bodyResponse
      * @return $this
      */
-    public function setTraceResponse( TraceResponse $traceResponse ) {
-        $this->traceResponse = $traceResponse;
-        return $this;
-    }
-
-    /**
-     * Возвращает результат выполнения из ответа
-     * @return ResultsResponse
-     */
-    public function getResultsResponse(): ResultsResponse {
-        if ( $this->resultsResponse === null ) {
-            $this->resultsResponse = new ResultsResponse();
-        }
-        return $this->resultsResponse;
-    }
-
-    /**
-     * Устанавливает результат выполнения из ответа
-     * @param ResultsResponse $resultsResponse
-     * @return $this
-     */
-    public function setResultsResponse( ResultsResponse $resultsResponse ) {
-        $this->resultsResponse = $resultsResponse;
-        return $this;
-    }
-
-    /**
-     * Возвращает ошибки выполнения из ответа
-     * @return ErrorsResponse
-     */
-    public function getErrorsResponse(): ErrorsResponse {
-        if ( $this->errorsResponse === null ) {
-            $this->errorsResponse = new ErrorsResponse();
-        }
-        return $this->errorsResponse;
-    }
-
-    /**
-     * Устанавливает ошибки выполнения из ответа
-     * @param ErrorsResponse $errorsResponse
-     * @return $this
-     */
-    public function setErrorsResponse( ErrorsResponse $errorsResponse ) {
-        $this->errorsResponse = $errorsResponse;
+    public function setBodyResponse( $bodyResponse ){
+        $this->bodyResponse = $bodyResponse;
         return $this;
     }
 
