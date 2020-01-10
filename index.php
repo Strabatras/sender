@@ -18,7 +18,7 @@ $sender->execute();
 $sender->response();
 
 echo "<pre>";
-    print_r( $sender->response() );
+    print_r( $sender->response()->getBodyResponse() );
 echo "</pre>";
 
 //phpinfo();

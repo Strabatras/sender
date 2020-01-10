@@ -1,9 +1,12 @@
 <?php
 namespace Bacchus\Sender\Response;
 
-
 use Bacchus\Sender\Interfaces\ResponseInterface;
 
+/**
+ * Class Response
+ * @package Bacchus\Sender\Response
+ */
 class Response implements ResponseInterface {
     private $headersResponse = null;
     private $bodyResponse = null;

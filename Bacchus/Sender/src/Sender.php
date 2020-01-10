@@ -1,11 +1,16 @@
 <?php
 namespace Bacchus\Sender;
 
+use Bacchus\Sender\Interfaces\ResponseInterface;
 use Bacchus\Sender\Interfaces\TransportInterface;
 use Bacchus\Sender\Interfaces\UriRequestInterface;
 use Bacchus\Sender\Transports\Curl;
 use Bacchus\Sender\Requests\UriRequest;
 
+/**
+ * Class Sender
+ * @package Bacchus\Sender
+ */
 class Sender {
 
     private $transport = null;
@@ -63,7 +68,7 @@ class Sender {
         $transport->execute();
     }
 
-    public function response(){
+    public function response() : ResponseInterface {
         return $this->transport()->response();
     }
 

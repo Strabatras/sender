@@ -1,7 +1,10 @@
 <?php
 namespace Bacchus\Sender\Response;
 
-
+/**
+ * Class HeadersResponse
+ * @package Bacchus\Sender\Response
+ */
 class HeadersResponse {
     private $httpCode = null;
     private $contentType = null;

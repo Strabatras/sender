@@ -8,6 +8,10 @@ use Bacchus\Sender\Interfaces\TransportInterface;
 use Bacchus\Sender\Response\Response;
 use Bacchus\Sender\Response\HeadersResponse;
 
+/**
+ * Class Curl
+ * @package Bacchus\Sender\Transports
+ */
 class Curl implements TransportInterface {
 
     private $uriRequest = null;
