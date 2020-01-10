@@ -68,6 +68,9 @@ class Curl implements TransportInterface {
         return $this;
     }
 
+    /**
+     * Выполнение запроса
+     */
     public function execute(){
         echo '<h5>' . __METHOD__ . '</h5>';
 
@@ -103,6 +106,10 @@ class Curl implements TransportInterface {
         curl_close( $ch );
     }
 
+    /**
+     * Ответ на выполненный запрос
+     * @return ResponseInterface
+     */
     public function response() : ResponseInterface {
         if ( $this->response === null ) {
             $this->response = new Response();
