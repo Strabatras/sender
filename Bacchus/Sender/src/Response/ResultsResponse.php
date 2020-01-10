@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Bacchus\Sender\Responses;
+namespace Bacchus\Sender\Response;
 
 
 class ResultsResponse {

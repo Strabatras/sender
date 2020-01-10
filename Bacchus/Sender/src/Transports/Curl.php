@@ -5,7 +5,8 @@ namespace Bacchus\Sender\Transports;
 use Bacchus\Sender\Interfaces\ResponseInterface;
 use Bacchus\Sender\Interfaces\UriRequestInterface;
 use Bacchus\Sender\Interfaces\TransportInterface;
-use Bacchus\Sender\Responses\Response;
+use Bacchus\Sender\Response\HeadersResponse;
+use Bacchus\Sender\Response\Response;
 
 
 class Curl implements TransportInterface {
@@ -32,6 +33,14 @@ class Curl implements TransportInterface {
 
     private function uriRequest(){
         return $this->uriRequest;
+    }
+
+    private function headersResponse( HeadersResponse $headersResponse ){
+        if( $curlGetInfo = $this->curlGetInfo() ) {
+            $headersResponse->setHttpCode( ( isset( $curlGetInfo[ 'http_code'] ) ) ? ( $curlGetInfo[ 'http_code'] ) : ( 0 ) );
+            $headersResponse->setContentType( ( isset( $curlGetInfo[ 'content_type'] ) ) ? ( $curlGetInfo[ 'content_type'] ) : ( '' ) );
+        }
+        return $headersResponse;
     }
 
     /**
@@ -81,32 +90,25 @@ class Curl implements TransportInterface {
 
         $this->curlExec = curl_exec( $ch );
 
-        if (!curl_errno($ch)) {
-            //$http_code = curl_getinfo( $ch, CURLINFO_HTTP_CODE );
+        if ( !curl_errno( $ch ) ) {
             $this->curlGetInfo = curl_getinfo( $ch );
-            echo "<pre>";
-                print_r( $this->curlGetInfo() );
-            echo "</pre>";
         }
 
         curl_close( $ch );
 
-        $result = '{"response":[],"errors":[],"traceId":"asdasd-0345345-dvd34ew-2345345gs-sdgsdgsdg"}';
-
-        echo "<pre>";
-            print_r( $options );
-            print_r( '<br>' );
-            //print_r( $report );
-            print_r( '<br> result => ' );
-            print_r( $result );
-        echo "</pre>";
     }
 
     public function response() : ResponseInterface {
         if ( $this->response === null ) {
             $response = new Response();
+            $response->setHeadersResponse( $this->headersResponse( $response->getHeadersResponse() ) );
+
+            if ( $this->curlExec() ) {
+
+            }
+
             $this->response = $response;
         }
-        return $this->response();
+        return $this->response;
     }
 }

@@ -57,10 +57,14 @@ class Sender {
 
     public function execute(){
         $transport = $this->transport();
-        if ( $this->setingsTranspot ) {
-            $transport->setSettings( $this->setingsTranspot );
+        if ( $this->uriRequest ) {
+            $transport->setUriRequest( $this->uriRequest );
         }
         $transport->execute();
+    }
+
+    public function response(){
+        return $this->transport()->response();
     }
 
 }
