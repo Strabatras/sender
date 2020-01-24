@@ -21,13 +21,14 @@ interface TransportInterface {
     public function setUriRequest( UriRequestInterface $uriRequest );
 
     /**
-     * Ответ на выполненный запрос
-     * @return ResponseInterface
-     */
-    public function response();
-
-    /**
      * Выполнение запроса
      */
     public function execute();
+
+    /**
+     * Ответ на выполненный запрос
+     * @return FormattedResponseInterface
+     */
+    public function response() : ResponseInterface;
+
 }

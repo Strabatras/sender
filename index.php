@@ -15,10 +15,10 @@ $sender->setUriRequest( $sender->getTransport()->getUriRequest()
 );
 
 $sender->execute();
-$sender->response();
+//$sender->response();
 
 echo "<pre>";
-    print_r( $sender->response()->getBodyResponse() );
+    print_r( $sender->response() );
 echo "</pre>";
 
 //phpinfo();

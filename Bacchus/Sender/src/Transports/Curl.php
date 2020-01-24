@@ -5,6 +5,7 @@ namespace Bacchus\Sender\Transports;
 use Bacchus\Sender\Interfaces\ResponseInterface;
 use Bacchus\Sender\Interfaces\UriRequestInterface;
 use Bacchus\Sender\Interfaces\TransportInterface;
+use Bacchus\Sender\Interfaces\FormattedResponseInterface;
 use Bacchus\Sender\Response\Response;
 use Bacchus\Sender\Response\HeadersResponse;
 
@@ -49,6 +50,7 @@ class Curl implements TransportInterface {
     private function bodyResponse( $bodyResponse ){
         return $bodyResponse;
     }
+
 
     /**
      * Возвращает URI запроса

@@ -1,9 +1,10 @@
 <?php
 namespace Bacchus\Sender;
 
-use Bacchus\Sender\Interfaces\ResponseInterface;
+use Bacchus\Sender\Interfaces\FormattedResponseInterface;
 use Bacchus\Sender\Interfaces\TransportInterface;
 use Bacchus\Sender\Interfaces\UriRequestInterface;
+use Bacchus\Sender\Response\JsonResponse;
 use Bacchus\Sender\Transports\Curl;
 use Bacchus\Sender\Requests\UriRequest;
 
@@ -22,6 +23,13 @@ class Sender {
             $this->transport->setUriRequest( new UriRequest() );
         }
         return $this->transport;
+    }
+
+    protected function formattedResponse( FormattedResponseInterface $formattedResponse = null  ) : FormattedResponseInterface {
+        if ( $formattedResponse === null ){
+            $formattedResponse = new JsonResponse();
+        }
+        return $formattedResponse;
     }
 
     /**
@@ -46,7 +54,7 @@ class Sender {
      * Возвращает настройки транспорта
      * @return UriRequestInterface
      */
-    public function getUriRequest() :UriRequestInterface {
+    public function getUriRequest() : UriRequestInterface {
         return $this->transport()->getUriRequest();
     }
 
@@ -66,10 +74,11 @@ class Sender {
             $transport->setUriRequest( $this->uriRequest );
         }
         $transport->execute();
+        return $this;
     }
 
-    public function response() : ResponseInterface {
-        return $this->transport()->response();
+    public function response( FormattedResponseInterface $formattedResponse = null ) : FormattedResponseInterface {
+        return $this->formattedResponse( $formattedResponse )->setResponse( $this->transport()->response() );
     }
 
 }
