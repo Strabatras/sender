@@ -8,17 +8,27 @@ $autoloader->nameSpaceRegister( 'Bacchus\Sender', __DIR__ . DIRECTORY_SEPARATOR 
 
 $sender = new \Bacchus\Sender\Sender();
 $sender->setUriRequest( $sender->getTransport()->getUriRequest()
-                                    ->setProtocol('http')
-                                    ->setDomain( 'response.localhost' )
-                                    ->setPort( 80 )
+                                    ->setProtocol('https')
+                                    ->setDomain( 'swapi.co/api/people/1/?format=json' )
                                     ->setMethod( 'get' )
 );
+try {
+    $result = $sender->execute()->response()->get();
 
-$sender->execute();
-//$sender->response();
+    echo "<pre>";
+    print_r( $result );
+    echo "</pre>";
+} catch ( \Exception $e ) {
+    echo "<pre>";
+        print_r( get_class( $e ) );
+        print_r( '<br>' );
+        print_r( $e );
+    echo "</pre>";
+}
 
-echo "<pre>";
-    print_r( $sender->response() );
-echo "</pre>";
+// https://swapi.co/api/people/1/?format=json
+// http://mosburo.com/
+// http://response.localhost/';
+// https://jsonplaceholder.typicode.com/comments';
 
 //phpinfo();

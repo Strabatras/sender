@@ -80,25 +80,18 @@ class Curl implements TransportInterface {
         $uri = $this->uriRequest();
 
         $options = [ CURLOPT_URL    => ( ( $uri->getProtocol() ) ? ( $uri->getProtocol() . '://' ) : ( '' ) ) . $uri->getDomain() . $uri->getPath()
-                   , CURLOPT_HEADER => 1
-                   , CURLOPT_RETURNTRANSFER => 1
-                   , CURLOPT_FOLLOWLOCATION => 0
-                   , CURLOPT_CONNECTTIMEOUT => 5
-                   , CURLOPT_TIMEOUT => 5
+                   , CURLOPT_HEADER => true
+                   , CURLOPT_RETURNTRANSFER => true
+                   , CURLOPT_FOLLOWLOCATION => true
+                   , CURLOPT_CONNECTTIMEOUT => 30
                    ];
 
         if ( $uri->getPort() ) {
             $options[ CURLOPT_PORT ] = $uri->getPort();
         }
 
-        $options[ CURLOPT_URL ] = 'http://swapi.co/api/people/1/?format=json';
-        $options[ CURLOPT_URL ] = 'http://mosburo.com/';
-
         $ch = curl_init();
         curl_setopt_array( $ch, $options );
-
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false );
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false );
 
         $this->curlExec = curl_exec( $ch );
 
