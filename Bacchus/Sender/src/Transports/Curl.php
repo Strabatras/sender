@@ -5,9 +5,9 @@ namespace Bacchus\Sender\Transports;
 use Bacchus\Sender\Interfaces\ResponseInterface;
 use Bacchus\Sender\Interfaces\UriRequestInterface;
 use Bacchus\Sender\Interfaces\TransportInterface;
-use Bacchus\Sender\Interfaces\FormattedResponseInterface;
 use Bacchus\Sender\Response\Response;
 use Bacchus\Sender\Response\HeadersResponse;
+use Bacchus\Sender\Exceptions\TransportException;
 
 /**
  * Class Curl
@@ -72,6 +72,8 @@ class Curl implements TransportInterface {
 
     /**
      * Выполнение запроса
+     *
+     * @throws TransportException
      */
     public function execute(){
         echo '<h5>' . __METHOD__ . '</h5>';
@@ -80,25 +82,25 @@ class Curl implements TransportInterface {
         $uri = $this->uriRequest();
 
         $options = [ CURLOPT_URL    => ( ( $uri->getProtocol() ) ? ( $uri->getProtocol() . '://' ) : ( '' ) ) . $uri->getDomain() . $uri->getPath()
-                   , CURLOPT_HEADER => true
+                   , CURLOPT_HEADER => false
                    , CURLOPT_RETURNTRANSFER => true
                    , CURLOPT_FOLLOWLOCATION => true
                    , CURLOPT_CONNECTTIMEOUT => 30
+                   , CURLOPT_PORT => ( $uri->getPort() ) ? ( $uri->getPort() ) : ( 0 )
                    ];
 
-        if ( $uri->getPort() ) {
-            $options[ CURLOPT_PORT ] = $uri->getPort();
-        }
+        try {
+            $ch = curl_init();
+            curl_setopt_array( $ch, $options );
 
-        $ch = curl_init();
-        curl_setopt_array( $ch, $options );
-
-        $this->curlExec = curl_exec( $ch );
-
-        if ( !curl_errno( $ch ) ) {
+            $this->curlExec = curl_exec( $ch );
+            if ( curl_errno( $ch ) ) {
+                throw new TransportException( 'Curl ' . curl_error( $ch ) );
+            }
             $this->curlGetInfo = curl_getinfo( $ch );
+        } finally {
+            curl_close( $ch );
         }
-        curl_close( $ch );
     }
 
     /**

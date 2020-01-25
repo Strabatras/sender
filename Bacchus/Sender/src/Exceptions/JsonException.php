@@ -5,7 +5,7 @@ use Bacchus\Sender\Exceptions\Exception;
 
 /**
  * Class JsonException
- * Исключения обработки JSON
+ * Исключения - обработка JSON
  *
  * @package Bacchus\Sender\Exceptions
  */

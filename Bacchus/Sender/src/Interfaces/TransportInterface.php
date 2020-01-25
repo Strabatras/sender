@@ -1,6 +1,8 @@
 <?php
 namespace Bacchus\Sender\Interfaces;
 
+use Bacchus\Sender\Exceptions\TransportException;
+
 /**
  * Interface TransportInterface
  * @package Bacchus\Sender\Interfaces
@@ -22,6 +24,8 @@ interface TransportInterface {
 
     /**
      * Выполнение запроса
+     *
+     * @throws TransportException
      */
     public function execute();
 

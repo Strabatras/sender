@@ -9,7 +9,10 @@ $autoloader->nameSpaceRegister( 'Bacchus\Sender', __DIR__ . DIRECTORY_SEPARATOR 
 $sender = new \Bacchus\Sender\Sender();
 $sender->setUriRequest( $sender->getTransport()->getUriRequest()
                                     ->setProtocol('https')
+                                    ->setDomain( 'jsonplaceholder.typicode.com/posts/1' )
+                                    ->setDomain( 'jsonplaceholder.typicode.com/comments' )
                                     ->setDomain( 'swapi.co/api/people/1/?format=json' )
+                                    //->setDomain( 'response.localhost' )
                                     ->setMethod( 'get' )
 );
 try {
