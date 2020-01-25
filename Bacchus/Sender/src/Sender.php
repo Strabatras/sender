@@ -2,6 +2,7 @@
 namespace Bacchus\Sender;
 
 use Bacchus\Sender\Interfaces\FormattedResponseInterface;
+use Bacchus\Sender\Interfaces\RequestInterface;
 use Bacchus\Sender\Interfaces\TransportInterface;
 use Bacchus\Sender\Interfaces\UriRequestInterface;
 use Bacchus\Sender\Response\JsonResponse;
@@ -16,6 +17,7 @@ class Sender {
 
     private $transport = null;
     private $uriRequest = null;
+    private $dataRequest = null;
 
     protected function transport() :TransportInterface {
         if ( $this->transport === null ) {
@@ -68,6 +70,10 @@ class Sender {
         return $this;
     }
 
+    public function setDataRequest( RequestInterface $dataRequest ){
+        $this->dataRequest = $dataRequest;
+    }
+
     public function execute(){
         $transport = $this->transport();
         if ( $this->uriRequest ) {
@@ -78,7 +84,8 @@ class Sender {
     }
 
     public function response( FormattedResponseInterface $formattedResponse = null ) : FormattedResponseInterface {
-        return $this->formattedResponse( $formattedResponse )->setResponse( $this->transport()->response() );
+        return $this->formattedResponse( $formattedResponse )
+                    ->setResponse( $this->transport()->response() );
     }
 
 }
