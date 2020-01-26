@@ -10,15 +10,13 @@ try {
     $sender = new \Bacchus\Sender\Sender();
     $sender->setUriRequest( $sender->getTransport()->getUriRequest()
                                                    ->setProtocol( \Bacchus\Sender\Enums\Transport::PROTOCOL_HTTPS )
-                                                   ->setDomain( 'jsonplaceholder.typicode.com/posts/1' )
-                                                   ->setDomain( 'jsonplaceholder.typicode.com/comments' )
                                                    ->setDomain( 'swapi.co/api/people/1/?format=json' )
-                                                   ->setMethod( \Bacchus\Sender\Enums\Transport::METHOD_POST )
+                                                   ->setMethod( \Bacchus\Sender\Enums\Transport::METHOD_GET )
     )->setDataRequest( new \Bacchus\Sender\Requests\JsonRequest( [ 'aaa' => 'asas' ] ) );
     $result = $sender->execute()->response()->get();
 
     echo "<pre>";
-    print_r( $result );
+        print_r( $result );
     echo "</pre>";
 } catch ( \Exception $e ) {
     echo "<pre>";
