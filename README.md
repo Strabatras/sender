@@ -13,7 +13,9 @@ try {
                                                    ->setDomain( 'swapi.co/api/people/1/?format=json' )
                                                    ->setMethod( \Bacchus\Sender\Enums\Transport::METHOD_GET )
     )->setDataRequest( new \Bacchus\Sender\Requests\JsonRequest( [ 'field' => 'value' ] ) );
-    $result = $sender->execute()->response()->get();
+    $result = $sender->execute()
+                     ->response( new \Bacchus\Sender\Response\JsonResponse() )
+                     ->get();
 } catch ( \Exception $e ) {
     echo "<pre>";
         print_r( $e );
