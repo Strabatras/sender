@@ -12,7 +12,7 @@ try {
                                                    ->setProtocol( \Bacchus\Sender\Enums\Transport::PROTOCOL_HTTPS )
                                                    ->setDomain( 'swapi.co/api/people/1/?format=json' )
                                                    ->setMethod( \Bacchus\Sender\Enums\Transport::METHOD_GET )
-    )->setDataRequest( new \Bacchus\Sender\Requests\JsonRequest( [ 'aaa' => 'asas' ] ) );
+    )->setDataRequest( new \Bacchus\Sender\Requests\JsonRequest( [ 'field' => 'value' ] ) );
     $result = $sender->execute()->response()->get();
 
     echo "<pre>";
