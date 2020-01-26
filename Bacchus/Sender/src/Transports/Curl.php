@@ -2,6 +2,8 @@
 
 namespace Bacchus\Sender\Transports;
 
+use Bacchus\Sender\Enums\Transport;
+use Bacchus\Sender\Interfaces\RequestInterface;
 use Bacchus\Sender\Interfaces\ResponseInterface;
 use Bacchus\Sender\Interfaces\UriRequestInterface;
 use Bacchus\Sender\Interfaces\TransportInterface;
@@ -16,6 +18,7 @@ use Bacchus\Sender\Exceptions\TransportException;
 class Curl implements TransportInterface {
 
     private $uriRequest = null;
+    private $dataRequest = null;
     private $curlExec = null;
     private $curlGetInfo = null;
 
@@ -71,6 +74,24 @@ class Curl implements TransportInterface {
     }
 
     /**
+     * Возвращает данные запроса
+     * @return RequestInterface|null
+     */
+    public function getDataRequest() :? RequestInterface {
+        return $this->dataRequest;
+    }
+
+    /**
+     * Устанавливает данные запроса
+     * @param RequestInterface $dataRequest
+     * @return TransportInterface
+     */
+    public function setDataRequest( RequestInterface $dataRequest ) {
+        $this->dataRequest = $dataRequest;
+        return $this;
+    }
+
+    /**
      * Выполнение запроса
      *
      * @throws TransportException
@@ -81,13 +102,20 @@ class Curl implements TransportInterface {
         $this->eraseResponse();
         $uri = $this->uriRequest();
 
-        $options = [ CURLOPT_URL    => ( ( $uri->getProtocol() ) ? ( $uri->getProtocol() . '://' ) : ( '' ) ) . $uri->getDomain() . $uri->getPath()
-                   , CURLOPT_HEADER => false
-                   , CURLOPT_RETURNTRANSFER => true
-                   , CURLOPT_FOLLOWLOCATION => true
-                   , CURLOPT_CONNECTTIMEOUT => 30
-                   , CURLOPT_PORT => ( $uri->getPort() ) ? ( $uri->getPort() ) : ( 0 )
+        $options = [ CURLOPT_URL                => ( ( $uri->getProtocol() ) ? ( $uri->getProtocol() . '://' ) : ( '' ) ) . $uri->getDomain() . $uri->getPath()
+                   , CURLOPT_HEADER             => false
+                   , CURLOPT_RETURNTRANSFER     => true
+                   , CURLOPT_FOLLOWLOCATION     => true
+                   , CURLOPT_CONNECTTIMEOUT     => 30
+                   , CURLOPT_PORT               => ( $uri->getPort() ) ? ( $uri->getPort() ) : ( 0 )
+                   , CURLOPT_POST               => ( Transport::METHOD_POST === $uri->getMethod() ) ? ( 1 ) : ( 0 )
                    ];
+
+        if ( $this->getDataRequest() && $options[ CURLOPT_POST ] ) {
+            $dataRequest = $this->getDataRequest();
+            $options[ CURLOPT_HTTPHEADER ] = $dataRequest->headers();
+            $options[ CURLOPT_POSTFIELDS ] = $dataRequest->data();
+        }
 
         try {
             $ch = curl_init();

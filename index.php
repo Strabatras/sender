@@ -6,17 +6,15 @@ $autoloader = new Bacchus\Sender\Autoloader();
 $autoloader->SplAutoloadRegister();
 $autoloader->nameSpaceRegister( 'Bacchus\Sender', __DIR__ . DIRECTORY_SEPARATOR . 'Bacchus' . DIRECTORY_SEPARATOR . 'Sender' . DIRECTORY_SEPARATOR . 'src' );
 
-
 try {
     $sender = new \Bacchus\Sender\Sender();
     $sender->setUriRequest( $sender->getTransport()->getUriRequest()
-        ->setProtocol('https')
-        ->setDomain( 'jsonplaceholder.typicode.com/posts/1' )
-        ->setDomain( 'jsonplaceholder.typicode.com/comments' )
-        ->setDomain( 'swapi.co/api/people/1/?format=json' )
-        //->setDomain( 'response.localhost' )
-        ->setMethod( 'get' )
-    )->setDataRequest();
+                                                   ->setProtocol( \Bacchus\Sender\Enums\Transport::PROTOCOL_HTTPS )
+                                                   ->setDomain( 'jsonplaceholder.typicode.com/posts/1' )
+                                                   ->setDomain( 'jsonplaceholder.typicode.com/comments' )
+                                                   ->setDomain( 'swapi.co/api/people/1/?format=json' )
+                                                   ->setMethod( \Bacchus\Sender\Enums\Transport::METHOD_POST )
+    )->setDataRequest( new \Bacchus\Sender\Requests\JsonRequest( [ 'aaa' => 'asas' ] ) );
     $result = $sender->execute()->response()->get();
 
     echo "<pre>";

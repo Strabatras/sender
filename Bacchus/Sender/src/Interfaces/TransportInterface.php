@@ -23,6 +23,19 @@ interface TransportInterface {
     public function setUriRequest( UriRequestInterface $uriRequest );
 
     /**
+     * Возвращает данные запроса
+     * @return RequestInterface|null
+     */
+    public function getDataRequest() :? RequestInterface;
+
+    /**
+     * Устанавливает данные запроса
+     * @param RequestInterface $dataRequest
+     * @return TransportInterface
+     */
+    public function setDataRequest( RequestInterface $dataRequest );
+
+    /**
      * Выполнение запроса
      *
      * @throws TransportException
@@ -31,7 +44,7 @@ interface TransportInterface {
 
     /**
      * Ответ на выполненный запрос
-     * @return FormattedResponseInterface
+     * @return ResponseInterface
      */
     public function response() : ResponseInterface;
 

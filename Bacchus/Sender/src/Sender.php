@@ -47,7 +47,7 @@ class Sender {
      * @param TransportInterface $transport
      * @return $this
      */
-    public function setTransport( TransportInterface $transport ) {
+    public function setTransport( TransportInterface $transport ) : Sender {
         $this->transport = $transport;
         return $this;
     }
@@ -62,22 +62,35 @@ class Sender {
 
     /**
      * Устанавливает настройки транспорта
-     * @param UriRequestInterface $setingsTranspot
-     * @return $this
+     * @param UriRequestInterface $uriRequest
+     * @return Sender
      */
-    public function setUriRequest( UriRequestInterface $uriRequest ) {
+    public function setUriRequest( UriRequestInterface $uriRequest ) : Sender {
         $this->uriRequest = $uriRequest;
         return $this;
     }
 
-    public function setDataRequest( RequestInterface $dataRequest ){
+    /**
+     * Устанавливает данные запроса
+     * @param RequestInterface $dataRequest
+     * @return Sender
+     */
+    public function setDataRequest( RequestInterface $dataRequest ) : Sender {
         $this->dataRequest = $dataRequest;
+        return $this;
     }
 
-    public function execute(){
+    /**
+     * @return $this
+     * @throws Exceptions\TransportException
+     */
+    public function execute() : Sender {
         $transport = $this->transport();
         if ( $this->uriRequest ) {
             $transport->setUriRequest( $this->uriRequest );
+        }
+        if ( $this->dataRequest ){
+            $transport->setDataRequest( $this->dataRequest );
         }
         $transport->execute();
         return $this;

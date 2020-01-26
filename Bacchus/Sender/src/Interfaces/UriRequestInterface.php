@@ -18,7 +18,7 @@ interface UriRequestInterface {
      * @param string $protocol
      * @return UriRequestInterface
      */
-    public function setProtocol( string $protocol );
+    public function setProtocol( string $protocol ) : UriRequestInterface;
 
     /**
      * Возвращает домен соединения
@@ -31,7 +31,7 @@ interface UriRequestInterface {
      * @param string $domain
      * @return UriRequestInterface
      */
-    public function setDomain( string $domain );
+    public function setDomain( string $domain ) : UriRequestInterface;
 
     /**
      * Возвращает путь домена соединения
@@ -44,7 +44,7 @@ interface UriRequestInterface {
      * @param string $path
      * @return UriRequestInterface
      */
-    public function setPath( string $path );
+    public function setPath( string $path ) : UriRequestInterface;
 
     /**
      * Возвращает порт соединения
@@ -57,7 +57,7 @@ interface UriRequestInterface {
      * @param int $port
      * @return $this
      */
-    public function setPort( int $path );
+    public function setPort( int $port ) : UriRequestInterface;
 
     /**
      * Возвращает метод соединения
@@ -70,6 +70,6 @@ interface UriRequestInterface {
      * @param string $method
      * @return $this
      */
-    public function setMethod( string $method );
+    public function setMethod( string $method ) : UriRequestInterface;
 
 }

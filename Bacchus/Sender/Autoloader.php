@@ -1,6 +1,8 @@
 <?php
 namespace Bacchus\Sender;
 
+use SplFileInfo;
+
 /**
  * Class Autoloader
  * @package Bacchus\Sender
@@ -35,7 +37,7 @@ class Autoloader {
     protected function fillNameSpaceMapping( string $nameSpace, string $path ){
         $scanned = array_diff( scandir( $path ), [ '..', '.' ] );
         foreach ( $scanned AS $row ) {
-            $fileInfo = new \SplFileInfo( $path . DIRECTORY_SEPARATOR . $row );
+            $fileInfo = new SplFileInfo( $path . DIRECTORY_SEPARATOR . $row );
             if ( $fileInfo->isDir() ) {
                 $this->fillNameSpaceMapping( $nameSpace . '\\' . $row, $path . DIRECTORY_SEPARATOR . $row );
             } elseif ( strtolower( $fileInfo->getExtension() ) === 'php' ) {

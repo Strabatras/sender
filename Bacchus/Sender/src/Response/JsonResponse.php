@@ -6,6 +6,7 @@ use Bacchus\Sender\Interfaces\ResponseInterface;
 
 use Bacchus\Sender\Helper;
 use Bacchus\Sender\Enums\Json;
+use Bacchus\Sender\Exceptions\JsonException;
 
 /**
  * Class JsonResponse
@@ -46,9 +47,9 @@ class JsonResponse implements FormattedResponseInterface {
      * Получить получить разобранный результат json ответа
      * @param bool $assoc Конвертировать разобранную json строку в объект или массив
      * @return array|object|null Результат json ответа
-     * @throws \Bacchus\Sender\Exceptions\JsonException
+     * @throws JsonException
      */
-    public function get( bool $assoc = Json::DECODE_TO_OBJECT ){
+    public function get( bool $assoc = Json::DECODE_TO_OBJECT ) {
         $json = $this->json();
         if ( !$json ) {
             return null;

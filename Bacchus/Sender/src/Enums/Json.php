@@ -3,7 +3,7 @@ namespace Bacchus\Sender\Enums;
 
 /**
  * Class Json
- * Перечисления работы с json
+ * Перечисления - параметры json
  *
  * @package Bacchus\Sender\Enums
  */

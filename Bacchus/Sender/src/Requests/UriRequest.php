@@ -80,7 +80,7 @@ class UriRequest implements UriRequestInterface {
     /**
      * Устанавливает порт соединения
      * @param int $port
-     * @return $this
+     * @return UriRequestInterface
      */
     public function setPort( int $port ) : UriRequestInterface {
         $this->port = $port;
@@ -98,7 +98,7 @@ class UriRequest implements UriRequestInterface {
     /**
      * Устанавливает метод соединения
      * @param string $method
-     * @return $this
+     * @return UriRequestInterface
      */
     public function setMethod( string $method ) : UriRequestInterface {
         $this->method = $method;

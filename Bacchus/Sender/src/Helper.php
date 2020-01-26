@@ -13,11 +13,11 @@ class Helper {
 
     /**
      * Декодирует строку JSON
-     * @param $json Строка json для декодирования.
+     * @param string $json Строка json для декодирования.
      * @param bool $assoc Если TRUE, возвращаемые объекты будут преобразованы в ассоциативные массивы.
      * @param int $depth Указывает глубину рекурсии.
      * @param int $options Битовая маска из констант
-     * @return mixed Возвращает данные json, преобразованные в соответствующие типы
+     * @return array|object mixed Возвращает данные json, преобразованные в соответствующие типы
      * @throws JsonException
      */
     public static function json_decode( $json, $assoc = false, $depth = 512, $options = 0 ) {
@@ -30,7 +30,7 @@ class Helper {
 
     /**
      * Возвращает JSON-представление данных
-     * @param $value Значение, которое будет закодировано.
+     * @param array $value Значение, которое будет закодировано.
      * @param int $options Битовая маска, составляемая из значений
      * @param int $depth Устанавливает максимальную глубину. Должен быть больше нуля.
      * @return false|string Возвращает строку, закодированную JSON или FALSE в случае возникновения ошибки.
